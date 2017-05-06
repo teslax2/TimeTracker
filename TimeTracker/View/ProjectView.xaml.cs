@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TimeTracker.ViewModel;
 
 namespace TimeTracker.View
 {
@@ -19,17 +20,27 @@ namespace TimeTracker.View
     /// </summary>
     public partial class ProjectView : Window
     {
+        private TimeTrackerViewModel _vm;
+        private System.Windows.Data.CollectionViewSource projectViewSource;
+
         public ProjectView()
         {
             InitializeComponent();
+            _vm = (TimeTrackerViewModel) this.FindResource("viewModel");
+            projectViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("projectViewSource")));
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
-            System.Windows.Data.CollectionViewSource projectViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("projectViewSource")));
             // Load data by setting the CollectionViewSource.Source property:
-            // projectViewSource.Source = [generic data source]
+            projectViewSource.Source = _vm.GetProjects(DateTime.Today);
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            TimeTrackerMain main = new TimeTrackerMain();
+            main.Show();
+        }
+
     }
 }

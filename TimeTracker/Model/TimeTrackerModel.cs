@@ -7,28 +7,17 @@ using System.Threading.Tasks;
 
 namespace TimeTracker.Model
 {
-    class TimeTrackerModel : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string property)
-        {
-            PropertyChangedEventHandler propertyChanged = PropertyChanged;
-            if (propertyChanged != null)
-            {
-                propertyChanged(this, new PropertyChangedEventArgs(property));
-            }
-        }
-        
+    class TimeTrackerModel
+    { 
         public TimeTrackerModel()
         {
-            using(var ctx = new TimeTrackerDataContext())
+            using(var ctx = new TimeTrackerDataModelContainer())
             {
-                if (ctx.Employees == null)
+                if (ctx.Employees.Count() == 0)
                     SeedDb(ctx);
             }
         }
-
-        private void SeedDb(TimeTrackerDataContext ctx)
+        private void SeedDb(TimeTrackerDataModelContainer ctx)
         {
             var employee = new Employee()
             {
@@ -66,10 +55,20 @@ namespace TimeTracker.Model
                 CalendarId = 2
             };
 
+            var project3 = new Project()
+            {
+                Id = 3,
+                Name = "Cipka",
+                Number = "PD895",
+                Description = "Projekt z pipki2",
+                CalendarId = 1
+            };
+
             ctx.Employees.Add(employee);
             ctx.Employees.Add(employee2);
             ctx.Projects.Add(project);
             ctx.Projects.Add(project2);
+            ctx.Projects.Add(project3);
             ctx.SaveChanges();
         }
 
@@ -77,18 +76,58 @@ namespace TimeTracker.Model
         {
             if (day.HasValue)
             {
-                using(var ctx = new TimeTrackerDataContext())
+                using(var ctx = new TimeTrackerDataModelContainer())
                 {
-                    var projects = ctx.Projects.Where(s => s.Calendar.Date.Date == day.Value).ToList();
+                    var projects = ctx.Projects.Where(s => s.Calendar.Date == day.Value).ToList();
                     return projects;
                 }
             }
             else
-                using(var ctx = new TimeTrackerDataContext())
+                using(var ctx = new TimeTrackerDataModelContainer())
                 {
                     var projects = ctx.Projects.Where(s => s.Calendar.Date.Date == DateTime.Today).ToList();
                     return projects;
                 }
+        }
+
+        public List<string> GetProjectNumbers()
+        {
+            using(var ctx = new TimeTrackerDataModelContainer())
+            {
+                var projectNumbers = (from c in ctx.Projects
+                                     orderby c.Number
+                                     select c.Number).ToList();
+
+                return projectNumbers;
+            }
+        }
+
+        public List<string> GetProjectNames(string name)
+        {
+            using(var ctx = new TimeTrackerDataModelContainer())
+            {
+                if (name == "")
+                {
+                    var allNames = (from c in ctx.Projects
+                                 orderby c.Name
+                                 select c.Name);
+                    return allNames.ToList();
+                }
+                else
+                {
+                    var names = (from c in ctx.Projects
+                                 orderby c.Name
+                                 where c.Name.Contains(name)
+                                 select c.Name);
+
+                    if (names != null)
+                        return names.ToList();
+                    else
+                        return new List<string>();
+                }
+
+
+            }
         }
     }
 }

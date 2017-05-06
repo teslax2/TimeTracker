@@ -28,7 +28,7 @@ namespace TimeTracker.View
         {
             var project = new ProjectView();
             project.Show();
-            this.Visibility = Visibility.Collapsed;
+            this.Close();
         }
     }
 }

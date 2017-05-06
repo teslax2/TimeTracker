@@ -13,21 +13,20 @@ namespace TimeTracker
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class TimeTrackerDataContext : DbContext
+    public partial class TimeTrackerDataModelContainer : DbContext
     {
-        public TimeTrackerDataContext()
-            : base("name=TimeTrackerDataModelContainer")
+        public TimeTrackerDataModelContainer()
+            : base("TimeTrackerDataModelContainer")
         {
         }
     
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+       // {
+      //      throw new UnintentionalCodeFirstException();
+      //  }
     
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Calendar> Calendars { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
-
     }
 }
