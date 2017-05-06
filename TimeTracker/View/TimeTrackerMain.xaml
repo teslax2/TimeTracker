@@ -1,0 +1,16 @@
+﻿<Window x:Class="TimeTracker.View.TimeTrackerMain"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimeTracker.View"
+        mc:Ignorable="d"
+        Title="TimeTrackerMain" Height="300" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="ProjectViewButton" Grid.Column="1" Click="ProjectViewButton_Click" Width="auto" Height="30" Margin="10,50,10,10" VerticalAlignment="Top" Background="#FF6EB0FF" Foreground="White">Project View</Button>
+    </Grid>
+</Window>

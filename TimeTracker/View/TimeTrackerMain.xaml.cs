@@ -10,19 +10,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TimeTracker
+namespace TimeTracker.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TimeTrackerMain.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TimeTrackerMain : Window
     {
-        public MainWindow()
+        public TimeTrackerMain()
         {
             InitializeComponent();
+        }
+
+        private void ProjectViewButton_Click(object sender, RoutedEventArgs e)
+        {
+            var project = new ProjectView();
+            project.Show();
+            this.Visibility = Visibility.Collapsed;
         }
     }
 }
