@@ -42,5 +42,20 @@ namespace TimeTracker.View
             main.Show();
         }
 
+        private void ComboBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            var combobox = (ComboBox)sender;
+
+            if(combobox.Text.Length > 2)
+            {
+                _vm.GetProjectNames(combobox.Text);
+            }
+        }
+
+        private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cal = (System.Windows.Controls.Calendar)sender;
+            projectViewSource.Source = _vm.GetProjects(cal.DisplayDate);
+        }
     }
 }

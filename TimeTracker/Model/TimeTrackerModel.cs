@@ -78,14 +78,14 @@ namespace TimeTracker.Model
             {
                 using(var ctx = new TimeTrackerDataModelContainer())
                 {
-                    var projects = ctx.Projects.Where(s => s.Calendar.Date == day.Value).ToList();
+                    var projects = ctx.Projects.Where(s => s.Calendar.Date.Day == day.Value.Day).ToList();
                     return projects;
                 }
             }
             else
                 using(var ctx = new TimeTrackerDataModelContainer())
                 {
-                    var projects = ctx.Projects.Where(s => s.Calendar.Date.Date == DateTime.Today).ToList();
+                    var projects = ctx.Projects.Where(s => s.Calendar.Date == DateTime.Today).ToList();
                     return projects;
                 }
         }
@@ -118,12 +118,15 @@ namespace TimeTracker.Model
                     var names = (from c in ctx.Projects
                                  orderby c.Name
                                  where c.Name.Contains(name)
-                                 select c.Name);
+                                 select c.Name).ToList();
 
-                    if (names != null)
-                        return names.ToList();
-                    else
-                        return new List<string>();
+                    var notNames = (from c in ctx.Projects
+                                    orderby c.Name
+                                    where !c.Name.Contains(name)
+                                    select c.Name).ToList();
+                    List<string> returnNames = names.Concat(notNames).ToList();
+
+                    return returnNames;
                 }
 
 
