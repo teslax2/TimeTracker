@@ -25,6 +25,8 @@ namespace TimeTracker.ViewModel
 
         private TimeTrackerModel _model = new TimeTrackerModel();
 
+        public CommandHandler SaveCommand { get { return new CommandHandler(SaveDataToDatabase, true); } }
+
         public TimeTrackerViewModel()
         {
             ProjectNumbers = new ObservableCollection<string>();
@@ -58,6 +60,11 @@ namespace TimeTracker.ViewModel
         public List<Project> GetProjects(DateTime? day)
         {
             return _model.GetProjects(day);
+        }
+
+        private void SaveDataToDatabase()
+        {
+
         }
     }
 }

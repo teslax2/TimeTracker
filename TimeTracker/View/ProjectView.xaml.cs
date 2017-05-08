@@ -55,7 +55,12 @@ namespace TimeTracker.View
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             var cal = (System.Windows.Controls.Calendar)sender;
-            projectViewSource.Source = _vm.GetProjects(cal.DisplayDate);
+            projectViewSource.Source = _vm.GetProjects(cal.SelectedDate);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //var projectToAdd = projectViewSource.View.Cur
         }
     }
 }

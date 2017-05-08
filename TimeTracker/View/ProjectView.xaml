@@ -47,6 +47,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <GridSplitter Grid.Column="0" Margin="0" Width="5" Height="auto" HorizontalContentAlignment="Right"/>
+        <Button Content="Save" Grid.Column="1" HorizontalAlignment="Right" Margin="10,10,10,15" Grid.Row="1" VerticalAlignment="Bottom" Width="75" Command="{Binding }" Click="Button_Click"/>
 
     </Grid>
 </Window>
