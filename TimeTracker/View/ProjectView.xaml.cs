@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,20 +21,12 @@ namespace TimeTracker.View
     /// </summary>
     public partial class ProjectView : Window
     {
-        private TimeTrackerViewModel _vm;
-        private System.Windows.Data.CollectionViewSource projectViewSource;
+
 
         public ProjectView()
         {
             InitializeComponent();
-            _vm = (TimeTrackerViewModel) this.FindResource("viewModel");
-            projectViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("projectViewSource")));
-        }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Load data by setting the CollectionViewSource.Source property:
-            projectViewSource.Source = _vm.GetProjects(DateTime.Today);
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -42,25 +35,6 @@ namespace TimeTracker.View
             main.Show();
         }
 
-        private void ComboBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            var combobox = (ComboBox)sender;
 
-            if(combobox.Text.Length > 2)
-            {
-                _vm.GetProjectNames(combobox.Text);
-            }
-        }
-
-        private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var cal = (System.Windows.Controls.Calendar)sender;
-            projectViewSource.Source = _vm.GetProjects(cal.SelectedDate);
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //var projectToAdd = projectViewSource.View.Cur
-        }
     }
 }

@@ -78,6 +78,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelTimeTracker.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\CommandTypes.cs" />
+    <Compile Include="ViewModel\TimeTrackerBase.cs" />
     <Compile Include="Model\TimeTrackerModel.cs" />
     <Compile Include="Project.cs">
       <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>

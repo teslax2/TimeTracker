@@ -9,7 +9,7 @@ using TimeTracker.Model;
 
 namespace TimeTracker.ViewModel
 {
-    class TimeTrackerViewModel : INotifyPropertyChanged
+    class TimeTrackerViewModel : TimeTrackerBase,INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string property)
@@ -20,51 +20,22 @@ namespace TimeTracker.ViewModel
                 propertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
-        public ObservableCollection<string> ProjectNumbers { get; set; }
-        public ObservableCollection<string> ProjectNames { get; set; }
+        public ObservableCollection<Project> Projects { get; set; }
+        public ObservableCollection<string> ProjectList { get; set; }
 
-        private TimeTrackerModel _model = new TimeTrackerModel();
 
-        public CommandHandler SaveCommand { get { return new CommandHandler(SaveDataToDatabase, true); } }
+        public CommandHandler SaveCommand { get { return new CommandHandler(() => HandleCommand(CommandTypes.Update), true); } }
 
-        public TimeTrackerViewModel()
+        public TimeTrackerViewModel():base()
         {
-            ProjectNumbers = new ObservableCollection<string>();
-            ProjectNames = new ObservableCollection<string>();
-            GetProjectNumbers();
-            GetProjectNames();
+            GetData();
         }
 
-        private void GetProjectNumbers()
+        protected override void GetData()
         {
-            var projectNumbers = _model.GetProjectNumbers();
-
-            foreach(var element in projectNumbers)
-            {
-                ProjectNumbers.Add(element);
-            }
+            ObservableCollection<Project> proj = _ctx.Projects.Local;
+            Projects = proj;
         }
 
-        public void GetProjectNames(string name = "")
-        {
-            ProjectNames.Clear();
-
-            var projectNames = _model.GetProjectNames(name);
-
-            foreach(var element in projectNames)
-            {
-                ProjectNames.Add(element);
-            }
-        }
-
-        public List<Project> GetProjects(DateTime? day)
-        {
-            return _model.GetProjects(day);
-        }
-
-        private void SaveDataToDatabase()
-        {
-
-        }
     }
 }
