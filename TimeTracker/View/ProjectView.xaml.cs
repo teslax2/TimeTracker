@@ -21,18 +21,20 @@ namespace TimeTracker.View
     /// </summary>
     public partial class ProjectView : Window
     {
-
+        TimeTrackerViewModel viewModel;
 
         public ProjectView()
         {
             InitializeComponent();
-
+            viewModel = this.FindResource("viewModel") as TimeTrackerViewModel;
+            this.DataContext = viewModel;
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             TimeTrackerMain main = new TimeTrackerMain();
             main.Show();
+            viewModel.Dispose();
         }
 
 

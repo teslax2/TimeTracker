@@ -78,9 +78,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelTimeTracker.tt</DependentUpon>
     </Compile>
+    <Compile Include="TimeTrackerDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TimeTrackerDataModel.Context.tt</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\CommandTypes.cs" />
     <Compile Include="ViewModel\TimeTrackerBase.cs" />
-    <Compile Include="Model\TimeTrackerModel.cs" />
     <Compile Include="Project.cs">
       <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>
     </Compile>
@@ -156,6 +160,11 @@
       <LastGenOutput>ModelTimeTracker.cs</LastGenOutput>
       <DependentUpon>TimeTrackerDataModel.edmx</DependentUpon>
     </Content>
+    <Content Include="TimeTrackerDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TimeTrackerDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>TimeTrackerDataModel.edmx</DependentUpon>
+    </Content>
     <Content Include="TimeTrackerDataModel.edmx.sql" />
     <Content Include="TimeTrackerDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -176,6 +185,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

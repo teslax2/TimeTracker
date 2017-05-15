@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/06/2017 12:03:02
--- Generated from EDMX file: c:\users\wiesi_000\documents\visual studio 2017\Projects\TimeTracker\TimeTracker\TimeTrackerDataModel.edmx
+-- Date Created: 05/11/2017 15:02:49
+-- Generated from EDMX file: C:\Users\wurvan\Source\Repos2\TimeTracker\TimeTracker\TimeTrackerDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [C:\USERS\WIESI_000\DOCUMENTS\TIMETRACKERDB.MDF];
+USE [TimeTrackerDb];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -17,11 +17,26 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_EmployeeCalendar]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Calendars] DROP CONSTRAINT [FK_EmployeeCalendar];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CalendarProject]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Projects] DROP CONSTRAINT [FK_CalendarProject];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[Employees]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Employees];
+GO
+IF OBJECT_ID(N'[dbo].[Calendars]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Calendars];
+GO
+IF OBJECT_ID(N'[dbo].[Projects]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Projects];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
