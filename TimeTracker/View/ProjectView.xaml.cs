@@ -42,5 +42,11 @@ namespace TimeTracker.View
             var dataGrid = sender as DataGrid;
             viewModel.RowEditEnding(dataGrid, e);
         }
+
+        private void ComboBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            viewModel.ComboboxTextChanged(comboBox.Text);
+        }
     }
 }

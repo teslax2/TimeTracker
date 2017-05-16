@@ -29,6 +29,9 @@ namespace TimeTracker.ViewModel
         public ObservableCollection<string> ProjectList { get { return _projectList; } set { _projectList = value; } }
         private ObservableCollection<string> _numberList = new ObservableCollection<string>();
         public ObservableCollection<string> NumberList { get { return _numberList; } set { _numberList = value; System.Diagnostics.Debug.WriteLine(value.Count); } }
+        private ObservableCollection<string> _filteredList = new ObservableCollection<string>();
+        public ObservableCollection<string> FilteredList { get { return _filteredList; } set { _filteredList = value; } }
+
         private List<Project> _projectsToAdd = new List<Project>();
         private List<Project> _projectsToDelete = new List<Project>();
 
@@ -73,9 +76,11 @@ namespace TimeTracker.ViewModel
             }
             Projects = proj;
             ProjectList = projList;
+            FilteredList = projList;
             NumberList = numList;
             OnPropertyChanged("Projects");
             OnPropertyChanged("ProjectList");
+            OnPropertyChanged("FilteredList");
             OnPropertyChanged("NumberList");
         }
 
@@ -97,6 +102,30 @@ namespace TimeTracker.ViewModel
             catch (InvalidCastException ex)
             {
                 System.Diagnostics.Debug.WriteLine("Cast exception in RwoEditEnding" + ex.Message);
+            }
+
+        }
+
+
+        internal void ComboboxTextChanged(string text)
+        {
+            if (text.Length < 2)
+            {
+                FilteredList = ProjectList;
+                OnPropertyChanged("FilteredList");
+            }
+            else
+            {
+                var filtered = (from element in ProjectList
+                                where element.Contains(text)
+                                select element).ToList();
+                var fillteredCollection = new ObservableCollection<string>();
+                foreach(var element in filtered)
+                {
+                    fillteredCollection.Add(element);
+                }
+                FilteredList = fillteredCollection;
+                OnPropertyChanged("FilteredList");
             }
 
         }
