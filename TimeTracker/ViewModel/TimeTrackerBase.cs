@@ -25,6 +25,7 @@ namespace TimeTracker.ViewModel
                 case CommandTypes.Create:
                     break;
                 case CommandTypes.Delete:
+                    Delete();
                     break;
                 case CommandTypes.Remove:
                     break;

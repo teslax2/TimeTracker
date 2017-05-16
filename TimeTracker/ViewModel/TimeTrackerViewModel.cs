@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace TimeTracker.ViewModel
 {
@@ -27,12 +28,17 @@ namespace TimeTracker.ViewModel
         private ObservableCollection<string> _projectList = new ObservableCollection<string>();
         public ObservableCollection<string> ProjectList { get { return _projectList; } set { _projectList = value; } }
         private ObservableCollection<string> _numberList = new ObservableCollection<string>();
-        public ObservableCollection<string> NumberList { get { return _projectList; } set { _projectList = value; } }
+        public ObservableCollection<string> NumberList { get { return _numberList; } set { _numberList = value; System.Diagnostics.Debug.WriteLine(value.Count); } }
+        private List<Project> _projectsToAdd = new List<Project>();
+        private List<Project> _projectsToDelete = new List<Project>();
 
         private DateTime _selectedDate = DateTime.Today;
         public DateTime SelectedDate { get { return _selectedDate; } set { _selectedDate = value; OnPropertyChanged("SelectedDate"); GetSpecificData(value); } }
+        private Project _selectedItem = new Project();
+        public Project SelectedItem { get { return _selectedItem; } set { _selectedItem = value; } }
 
         public CommandHandler SaveCommand { get { return new CommandHandler(() => HandleCommand(CommandTypes.Commit), true); } }
+        public CommandHandler DeleteCommand { get { return new CommandHandler(() => HandleCommand(CommandTypes.Delete), true); } }
 
         public TimeTrackerViewModel() : base() { }
 
@@ -44,18 +50,24 @@ namespace TimeTracker.ViewModel
         private void GetSpecificData(DateTime value)
         {
             var allProjects = _ctx.Projects.ToList();
+            var projNumbers = allProjects.Select(s => s.Number).Distinct().ToList();
+            var projNames = allProjects.Select(s => s.Name).Distinct().ToList();
             var projects = allProjects.Where(c => c.Calendar.Date == value.Date).ToList();
             var proj = new ObservableCollection<Project>();
             var projList = new ObservableCollection<string>();
             var numList = new ObservableCollection<string>();
 
-            foreach (var element in allProjects)
+            foreach (var element in projNumbers)
             {
-                projList.Add(element.Name);
-                numList.Add(element.Number);
+                numList.Add(element);
             }
 
-            foreach(var element in projects)
+            foreach (var element in projNames)
+            {
+                projList.Add(element);
+            }
+
+            foreach (var element in projects)
             {
                 proj.Add(element);
             }
@@ -67,10 +79,65 @@ namespace TimeTracker.ViewModel
             OnPropertyChanged("NumberList");
         }
 
-        protected override void CommitUpdates()
+        public void RowEditEnding(DataGrid dataGrid, DataGridRowEditEndingEventArgs e)
         {
-            _ctx.SaveChanges();
+            try
+            {
+                var entity = (Project)e.Row.Item;
+
+                if (_ctx.Projects.Any(s => s.Id == entity.Id))
+                    return;
+                if (!_ctx.Calendars.Any(s => s.Id == entity.CalendarId))
+                {
+                    entity.Calendar = new Calendar() { Date = _selectedDate, EmployeeId = 1 };
+                    _projectsToAdd.Add(entity);
+                }
+
+            }
+            catch (InvalidCastException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Cast exception in RwoEditEnding" + ex.Message);
+            }
+
         }
 
+        protected override void CommitUpdates()
+        {
+            try
+            {
+                if (_projectsToAdd.Count > 0)
+                {
+                    foreach (var entity in _projectsToAdd)
+                    {
+                        _ctx.Projects.Add(entity);
+                    }
+                    _projectsToAdd.Clear();
+                }
+                if (_projectsToDelete.Count > 0)
+                {
+                    foreach (var entity in _projectsToDelete)
+                    {
+                        _ctx.Projects.Remove(entity);
+                    }
+                    _projectsToDelete.Clear();
+                }
+                _ctx.SaveChanges();
+            }
+            catch(InvalidOperationException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Invalid Operation Exception" + ex.Message);
+            }
+
+        }
+
+        protected override void Delete()
+        {
+            if (SelectedItem == null)
+                return;
+
+            _projectsToDelete.Add(SelectedItem);
+            Projects.Remove(SelectedItem);
+            OnPropertyChanged("Projects");
+        }
     }
 }

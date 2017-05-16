@@ -37,6 +37,10 @@ namespace TimeTracker.View
             viewModel.Dispose();
         }
 
-
+        private void projectDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            var dataGrid = sender as DataGrid;
+            viewModel.RowEditEnding(dataGrid, e);
+        }
     }
 }
