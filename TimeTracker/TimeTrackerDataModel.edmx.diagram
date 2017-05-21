@@ -10,6 +10,8 @@
         <EntityTypeShape EntityType="TimeTrackerDataModel.Project" Width="1.5" PointX="7.375" PointY="1.75" />
         <AssociationConnector Association="TimeTrackerDataModel.EmployeeCalendar" />
         <AssociationConnector Association="TimeTrackerDataModel.CalendarProject" />
+        <EntityTypeShape EntityType="TimeTrackerDataModel.ProjectName" Width="1.5" PointX="9.625" PointY="2.125" />
+        <AssociationConnector Association="TimeTrackerDataModel.ProjectProjectName" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

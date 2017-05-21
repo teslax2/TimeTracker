@@ -22,10 +22,12 @@ namespace TimeTracker
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            
         }
     
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Calendar> Calendars { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
+        public virtual DbSet<ProjectName> ProjectNameSet { get; set; }
     }
 }

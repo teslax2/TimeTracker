@@ -83,34 +83,27 @@
     <Compile Include="Employee.cs">
       <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ModelTimeTracker.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelTimeTracker.Context.tt</DependentUpon>
+    <Compile Include="Project.cs">
+      <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ModelTimeTracker.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelTimeTracker.tt</DependentUpon>
+    <Compile Include="ProjectName.cs">
+      <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Roles.cs">
+      <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TimeTrackerDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TimeTrackerDataModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\CommandTypes.cs" />
-    <Compile Include="ViewModel\TimeTrackerBase.cs" />
-    <Compile Include="Project.cs">
-      <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Roles.cs">
-      <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="TimeTrackerDataModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\CommandTypes.cs" />
+    <Compile Include="ViewModel\TimeTrackerBase.cs" />
     <Compile Include="TimeTrackerDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -165,16 +158,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ModelTimeTracker.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ModelTimeTracker.Context.cs</LastGenOutput>
-      <DependentUpon>TimeTrackerDataModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="ModelTimeTracker.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ModelTimeTracker.cs</LastGenOutput>
-      <DependentUpon>TimeTrackerDataModel.edmx</DependentUpon>
-    </Content>
     <Content Include="TimeTrackerDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TimeTrackerDataModel.Context.cs</LastGenOutput>

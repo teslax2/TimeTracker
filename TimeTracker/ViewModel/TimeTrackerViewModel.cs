@@ -25,15 +25,18 @@ namespace TimeTracker.ViewModel
 #endregion
         private ObservableCollection<Project> _projects = new ObservableCollection<Project>();
         public ObservableCollection<Project> Projects { get { return _projects; } set { _projects = value;} }
-        private ObservableCollection<string> _projectList = new ObservableCollection<string>();
-        public ObservableCollection<string> ProjectList { get { return _projectList; } set { _projectList = value; } }
-        private ObservableCollection<string> _numberList = new ObservableCollection<string>();
-        public ObservableCollection<string> NumberList { get { return _numberList; } set { _numberList = value; System.Diagnostics.Debug.WriteLine(value.Count); } }
-        private ObservableCollection<string> _filteredList = new ObservableCollection<string>();
-        public ObservableCollection<string> FilteredList { get { return _filteredList; } set { _filteredList = value; } }
+        private ObservableCollection<ProjectName> _projectList = new ObservableCollection<ProjectName>();
+        public ObservableCollection<ProjectName> ProjectList { get { return _projectList; } set { _projectList = value; } }
+        //private ObservableCollection<string> _numberList = new ObservableCollection<string>();
+        //public ObservableCollection<string> NumberList { get { return _numberList; } set { _numberList = value; System.Diagnostics.Debug.WriteLine(value.Count); } }
+        private ObservableCollection<ProjectName> _filteredList = new ObservableCollection<ProjectName>();
+        public ObservableCollection<ProjectName> FilteredList { get { return _filteredList; } set { _filteredList = value; } }
+        private int _selectedUserId = 5;
+        public int SelectedUserId { get { return _selectedUserId; } set { _selectedUserId = value; OnPropertyChanged("SelectedUserId"); }}
 
         private List<Project> _projectsToAdd = new List<Project>();
         private List<Project> _projectsToDelete = new List<Project>();
+        private List<Calendar> _calendarsToAdd = new List<Calendar>();
 
         private DateTime _selectedDate = DateTime.Today;
         public DateTime SelectedDate { get { return _selectedDate; } set { _selectedDate = value; OnPropertyChanged("SelectedDate"); GetSpecificData(value); } }
@@ -43,7 +46,10 @@ namespace TimeTracker.ViewModel
         public CommandHandler SaveCommand { get { return new CommandHandler(() => HandleCommand(CommandTypes.Commit), true); } }
         public CommandHandler DeleteCommand { get { return new CommandHandler(() => HandleCommand(CommandTypes.Delete), true); } }
 
-        public TimeTrackerViewModel() : base() { }
+        public TimeTrackerViewModel() : base()
+        {
+            GetData();
+        }
 
         protected override void GetData()
         {
@@ -53,17 +59,11 @@ namespace TimeTracker.ViewModel
         private void GetSpecificData(DateTime value)
         {
             var allProjects = _ctx.Projects.ToList();
-            var projNumbers = allProjects.Select(s => s.Number).Distinct().ToList();
-            var projNames = allProjects.Select(s => s.Name).Distinct().ToList();
+            var projNames = _ctx.ProjectNameSet.Distinct().ToList();
             var projects = allProjects.Where(c => c.Calendar.Date == value.Date).ToList();
             var proj = new ObservableCollection<Project>();
-            var projList = new ObservableCollection<string>();
-            var numList = new ObservableCollection<string>();
+            var projList = new ObservableCollection<ProjectName>();
 
-            foreach (var element in projNumbers)
-            {
-                numList.Add(element);
-            }
 
             foreach (var element in projNames)
             {
@@ -77,25 +77,32 @@ namespace TimeTracker.ViewModel
             Projects = proj;
             ProjectList = projList;
             FilteredList = projList;
-            NumberList = numList;
             OnPropertyChanged("Projects");
             OnPropertyChanged("ProjectList");
             OnPropertyChanged("FilteredList");
-            OnPropertyChanged("NumberList");
         }
 
         public void RowEditEnding(DataGrid dataGrid, DataGridRowEditEndingEventArgs e)
         {
             try
             {
+                var calendar = _ctx.Calendars.Where(s => s.Date == SelectedDate).FirstOrDefault();
+                if (calendar == null)
+                {
+                    calendar = new Calendar() { EmployeeId = SelectedUserId, Date = SelectedDate};
+                    //_calendarsToAdd.Add(calendar);
+                    _ctx.Calendars.Add(calendar);
+                    _ctx.SaveChanges();
+                }
+
                 var entity = (Project)e.Row.Item;
 
-                if (_ctx.Projects.Any(s => s.Id == entity.Id))
-                    return;
-                if (!_ctx.Calendars.Any(s => s.Id == entity.CalendarId))
+                var project = _ctx.Projects.Where(s => s.Id == entity.Id).FirstOrDefault();
+                calendar = _ctx.Calendars.Where(s => s.Date == SelectedDate).FirstOrDefault();
+                if (project == null)
                 {
-                    entity.Calendar = new Calendar() { Date = _selectedDate, EmployeeId = 1 };
-                    _projectsToAdd.Add(entity);
+                    project = new Project() {Description = entity.Description, CalendarId = calendar.Id, Hours = entity.Hours, ProjectNameId=entity.ProjectNameId};
+                    _projectsToAdd.Add(project);
                 }
 
             }
@@ -109,22 +116,23 @@ namespace TimeTracker.ViewModel
 
         internal void ComboboxTextChanged(string text)
         {
-            if (text.Length < 2)
-            {
-                FilteredList = ProjectList;
-                OnPropertyChanged("FilteredList");
-            }
-            else
+
+            if(text.Length >= 2)
             {
                 var filtered = (from element in ProjectList
-                                where element.Contains(text)
+                                where element.Name.Contains(text)
                                 select element).ToList();
-                var fillteredCollection = new ObservableCollection<string>();
+                var fillteredCollection = new ObservableCollection<ProjectName>();
                 foreach(var element in filtered)
                 {
                     fillteredCollection.Add(element);
                 }
                 FilteredList = fillteredCollection;
+                OnPropertyChanged("FilteredList");
+            }
+            else
+            {
+                FilteredList = ProjectList;
                 OnPropertyChanged("FilteredList");
             }
 
@@ -134,6 +142,15 @@ namespace TimeTracker.ViewModel
         {
             try
             {
+                if (_calendarsToAdd.Count > 0)
+                {
+                    foreach (var entity in _calendarsToAdd)
+                    {
+                        _ctx.Calendars.Add(entity);
+                    }
+                    _calendarsToAdd.Clear();
+                }
+
                 if (_projectsToAdd.Count > 0)
                 {
                     foreach (var entity in _projectsToAdd)
@@ -142,6 +159,7 @@ namespace TimeTracker.ViewModel
                     }
                     _projectsToAdd.Clear();
                 }
+
                 if (_projectsToDelete.Count > 0)
                 {
                     foreach (var entity in _projectsToDelete)

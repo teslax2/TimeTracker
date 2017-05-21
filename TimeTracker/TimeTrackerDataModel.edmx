@@ -9,6 +9,7 @@
     <EntitySet Name="Employees" EntityType="TimeTrackerDataModel.Store.Employees" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Calendars" EntityType="TimeTrackerDataModel.Store.Calendars" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Projects" EntityType="TimeTrackerDataModel.Store.Projects" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectNameSet" EntityType="TimeTrackerDataModel.Store.ProjectNameSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="EmployeeCalendar" Association="TimeTrackerDataModel.Store.EmployeeCalendar">
       <End Role="Employee" EntitySet="Employees" />
       <End Role="Calendar" EntitySet="Calendars" />
@@ -16,6 +17,10 @@
     <AssociationSet Name="CalendarProject" Association="TimeTrackerDataModel.Store.CalendarProject">
       <End Role="Calendar" EntitySet="Calendars" />
       <End Role="Project" EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet Name="ProjectProjectName" Association="TimeTrackerDataModel.Store.ProjectProjectName">
+      <End Role="Project" EntitySet="Projects" />
+      <End Role="ProjectName" EntitySet="ProjectNameSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Employees">
@@ -40,11 +45,19 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Number" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Hours" Type="int" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CalendarId" Type="int" Nullable="false" />
+    <Property Name="ProjectNameId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProjectNameSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Number" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="EmployeeCalendar">
     <End Role="Employee" Type="TimeTrackerDataModel.Store.Employees" Multiplicity="1" />
@@ -70,6 +83,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ProjectProjectName">
+    <End Role="Project" Type="TimeTrackerDataModel.Store.Projects" Multiplicity="*" />
+    <End Role="ProjectName" Type="TimeTrackerDataModel.Store.ProjectNameSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectName">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Project">
+        <PropertyRef Name="ProjectNameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -85,6 +110,11 @@
           <AssociationSet Name="CalendarProject" Association="TimeTrackerDataModel.CalendarProject">
             <End Role="Calendar" EntitySet="Calendars" />
             <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
+          <EntitySet Name="ProjectNameSet" EntityType="TimeTrackerDataModel.ProjectName" />
+          <AssociationSet Name="ProjectProjectName" Association="TimeTrackerDataModel.ProjectProjectName">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ProjectName" EntitySet="ProjectNameSet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Employee">
@@ -112,12 +142,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Number" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Hours" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Calendar" Relationship="TimeTrackerDataModel.CalendarProject" FromRole="Project" ToRole="Calendar" />
           <Property Name="CalendarId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProjectName" Relationship="TimeTrackerDataModel.ProjectProjectName" FromRole="Project" ToRole="ProjectName" />
+          <Property Name="ProjectNameId" Type="Int32" Nullable="false" />
         </EntityType>
         <EnumType Name="Roles">
           <Member Name="Engineer" Value="0" />
@@ -150,6 +180,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ProjectName">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Number" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="TimeTrackerDataModel.ProjectProjectName" FromRole="ProjectName" ToRole="Project" />
+        </EntityType>
+        <Association Name="ProjectProjectName">
+          <End Type="TimeTrackerDataModel.Project" Role="Project" Multiplicity="*" />
+          <End Type="TimeTrackerDataModel.ProjectName" Role="ProjectName" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectName">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="ProjectNameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -179,11 +231,20 @@
       <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerDataModel.Project)">
         <MappingFragment StoreEntitySet="Projects">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Number" ColumnName="Number" />
           <ScalarProperty Name="Hours" ColumnName="Hours" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
+          <ScalarProperty Name="ProjectNameId" ColumnName="ProjectNameId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectNameSet">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerDataModel.ProjectName)">
+        <MappingFragment StoreEntitySet="ProjectNameSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
