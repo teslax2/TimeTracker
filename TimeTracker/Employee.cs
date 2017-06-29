@@ -27,5 +27,6 @@ namespace TimeTracker
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Calendar> Calendar { get; set; }
+        public virtual Creditential Creditential { get; set; }
     }
 }

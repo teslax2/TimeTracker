@@ -80,6 +80,9 @@
     <Compile Include="Calendar.cs">
       <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Creditential.cs">
+      <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Employee.cs">
       <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>
     </Compile>
@@ -114,12 +117,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\CommandHandler.cs" />
+    <Compile Include="ViewModel\TimeTrackerMainViewModel.cs" />
     <Compile Include="ViewModel\TimeTrackerViewModel.cs" />
     <Compile Include="View\ProjectView.xaml.cs">
       <DependentUpon>ProjectView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TimeTrackerMain.xaml.cs">
       <DependentUpon>TimeTrackerMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserLogin.xaml.cs">
+      <DependentUpon>UserLogin.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +186,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TimeTrackerMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

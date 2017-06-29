@@ -48,10 +48,5 @@ namespace TimeTracker.View
             var comboBox = sender as ComboBox;
             viewModel.ComboboxTextChanged(comboBox.Text);
         }
-
-        private void projectDataGrid_AddingNewItem(object sender, AddingNewItemEventArgs e)
-        {
-
-        }
     }
 }

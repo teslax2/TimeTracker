@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TimeTracker.ViewModel;
 
 namespace TimeTracker.View
 {
@@ -19,9 +20,14 @@ namespace TimeTracker.View
     /// </summary>
     public partial class TimeTrackerMain : Window
     {
+        TimeTrackerViewModel viewModel;
+
         public TimeTrackerMain()
         {
+
             InitializeComponent();
+            viewModel = this.FindResource("timeTrackerViewModel") as TimeTrackerViewModel;
+            this.DataContext = viewModel;
         }
 
         private void ProjectViewButton_Click(object sender, RoutedEventArgs e)

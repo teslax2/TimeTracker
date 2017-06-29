@@ -27,8 +27,6 @@ namespace TimeTracker.ViewModel
         public ObservableCollection<Project> Projects { get { return _projects; } set { _projects = value;} }
         private ObservableCollection<ProjectName> _projectList = new ObservableCollection<ProjectName>();
         public ObservableCollection<ProjectName> ProjectList { get { return _projectList; } set { _projectList = value; } }
-        //private ObservableCollection<string> _numberList = new ObservableCollection<string>();
-        //public ObservableCollection<string> NumberList { get { return _numberList; } set { _numberList = value; System.Diagnostics.Debug.WriteLine(value.Count); } }
         private ObservableCollection<ProjectName> _filteredList = new ObservableCollection<ProjectName>();
         public ObservableCollection<ProjectName> FilteredList { get { return _filteredList; } set { _filteredList = value; } }
         private int _selectedUserId = 5;
@@ -44,7 +42,7 @@ namespace TimeTracker.ViewModel
         public Project SelectedItem { get { return _selectedItem; } set { _selectedItem = value; } }
 
         public CommandHandler SaveCommand { get { return new CommandHandler(() => HandleCommand(CommandTypes.Commit), true); } }
-        public CommandHandler DeleteCommand { get { return new CommandHandler(() => HandleCommand(CommandTypes.Delete), true); } }
+        public CommandHandler DeleteCommand { get { return new CommandHandler(() =>  HandleCommand(CommandTypes.Delete), true); } }
 
         public TimeTrackerViewModel() : base()
         {

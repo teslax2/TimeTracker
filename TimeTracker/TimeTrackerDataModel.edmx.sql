@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/21/2017 11:25:35
+-- Date Created: 05/22/2017 21:55:54
 -- Generated from EDMX file: C:\Users\wiesi_000\documents\visual studio 2017\Projects\TimeTracker\TimeTracker\TimeTrackerDataModel.edmx
 -- --------------------------------------------------
 
@@ -84,6 +84,15 @@ CREATE TABLE [dbo].[ProjectNameSet] (
 );
 GO
 
+-- Creating table 'Creditential'
+CREATE TABLE [dbo].[Creditential] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Email] nvarchar(max)  NOT NULL,
+    [Password] nvarchar(max)  NOT NULL,
+    [Employee_Id] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -109,6 +118,12 @@ GO
 -- Creating primary key on [Id] in table 'ProjectNameSet'
 ALTER TABLE [dbo].[ProjectNameSet]
 ADD CONSTRAINT [PK_ProjectNameSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Creditential'
+ALTER TABLE [dbo].[Creditential]
+ADD CONSTRAINT [PK_Creditential]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -159,6 +174,21 @@ GO
 CREATE INDEX [IX_FK_ProjectProjectName]
 ON [dbo].[Projects]
     ([ProjectNameId]);
+GO
+
+-- Creating foreign key on [Employee_Id] in table 'Creditential'
+ALTER TABLE [dbo].[Creditential]
+ADD CONSTRAINT [FK_CreditentialEmployee]
+    FOREIGN KEY ([Employee_Id])
+    REFERENCES [dbo].[Employees]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CreditentialEmployee'
+CREATE INDEX [IX_FK_CreditentialEmployee]
+ON [dbo].[Creditential]
+    ([Employee_Id]);
 GO
 
 -- --------------------------------------------------
