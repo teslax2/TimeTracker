@@ -24,7 +24,7 @@ namespace TimeTracker.ViewModel
         private string _login;
         public String Login { get { return _login; } set { _login = value; } }
 
-        public CommandHandler SubmitCommand { get { return new CommandHandler(s => SubmitComm(s), true); } }
+        public CommandHandler SubmitCommand { get { return new CommandHandler((s) => SubmitComm(s), true); } }
 
         private void SubmitComm(object password)
         {

@@ -26,8 +26,8 @@ namespace TimeTracker.View
         {
 
             InitializeComponent();
-            viewModel = this.FindResource("timeTrackerViewModel") as TimeTrackerViewModel;
-            this.DataContext = viewModel;
+            //viewModel = this.FindResource("timeTrackerViewModel") as TimeTrackerViewModel;
+            //this.DataContext = viewModel;
         }
 
         private void ProjectViewButton_Click(object sender, RoutedEventArgs e)
