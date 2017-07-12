@@ -12,15 +12,12 @@ namespace TimeTracker
     using System;
     using System.Collections.Generic;
     
-    public partial class Project
+    public partial class Creditential
     {
         public int Id { get; set; }
-        public int Hours { get; set; }
-        public string Description { get; set; }
-        public int CalendarId { get; set; }
-        public int ProjectNameId { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     
-        public virtual Calendar Calendar { get; set; }
-        public virtual ProjectName ProjectName { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

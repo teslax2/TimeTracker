@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,47 +21,32 @@ namespace TimeTracker.View
     /// </summary>
     public partial class ProjectView : Window
     {
-        private TimeTrackerViewModel _vm;
-        private System.Windows.Data.CollectionViewSource projectViewSource;
+        TimeTrackerViewModel viewModel;
 
         public ProjectView()
         {
             InitializeComponent();
-            _vm = (TimeTrackerViewModel) this.FindResource("viewModel");
-            projectViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("projectViewSource")));
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Load data by setting the CollectionViewSource.Source property:
-            projectViewSource.Source = _vm.GetProjects(DateTime.Today);
+            viewModel = this.FindResource("viewModel") as TimeTrackerViewModel;
+            this.DataContext = viewModel;
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             TimeTrackerMain main = new TimeTrackerMain();
             main.Show();
+            viewModel.Dispose();
         }
 
-        private void ComboBox_KeyUp(object sender, KeyEventArgs e)
+        private void projectDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
-            var combobox = (ComboBox)sender;
-
-            if(combobox.Text.Length > 2)
-            {
-                _vm.GetProjectNames(combobox.Text);
-            }
+            var dataGrid = sender as DataGrid;
+            viewModel.RowEditEnding(dataGrid, e);
         }
 
-        private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        private void ComboBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var cal = (System.Windows.Controls.Calendar)sender;
-            projectViewSource.Source = _vm.GetProjects(cal.SelectedDate);
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //var projectToAdd = projectViewSource.View.Cur
+            var comboBox = sender as ComboBox;
+            viewModel.ComboboxTextChanged(comboBox.Text);
         }
     }
 }

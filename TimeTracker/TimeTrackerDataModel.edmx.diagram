@@ -5,11 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="7c7007ce07634e80afb5ebe78003431d" Name="Diagram1" >
-        <EntityTypeShape EntityType="TimeTrackerDataModel.Employee" Width="1.5" PointX="2.25" PointY="1.75" />
+        <EntityTypeShape EntityType="TimeTrackerDataModel.Employee" Width="1.5" PointX="2.875" PointY="1.75" />
         <EntityTypeShape EntityType="TimeTrackerDataModel.Calendar" Width="1.5" PointX="5" PointY="1.75" />
         <EntityTypeShape EntityType="TimeTrackerDataModel.Project" Width="1.5" PointX="7.375" PointY="1.75" />
         <AssociationConnector Association="TimeTrackerDataModel.EmployeeCalendar" />
         <AssociationConnector Association="TimeTrackerDataModel.CalendarProject" />
+        <EntityTypeShape EntityType="TimeTrackerDataModel.ProjectName" Width="1.5" PointX="9.625" PointY="1.75" />
+        <AssociationConnector Association="TimeTrackerDataModel.ProjectProjectName" />
+        <EntityTypeShape EntityType="TimeTrackerDataModel.Creditential" Width="1.5" PointX="0.625" PointY="1.75" />
+        <AssociationConnector Association="TimeTrackerDataModel.CreditentialEmployee" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

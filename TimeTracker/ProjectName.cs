@@ -12,21 +12,20 @@ namespace TimeTracker
     using System;
     using System.Collections.Generic;
     
-    public partial class Employee
+    public partial class ProjectName
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Employee()
+        public ProjectName()
         {
-            this.Calendar = new HashSet<Calendar>();
+            this.Project = new HashSet<Project>();
         }
     
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string Surname { get; set; }
-        public Roles Role { get; set; }
+        public string Name { get; set; }
+        public string Number { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Calendar> Calendar { get; set; }
-        public virtual Creditential Creditential { get; set; }
+        public virtual ICollection<Project> Project { get; set; }
     }
 }

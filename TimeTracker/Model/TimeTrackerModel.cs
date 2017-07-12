@@ -11,11 +11,6 @@ namespace TimeTracker.Model
     { 
         public TimeTrackerModel()
         {
-            using(var ctx = new TimeTrackerDataModelContainer())
-            {
-                if (ctx.Employees.Count() == 0)
-                    SeedDb(ctx);
-            }
         }
         private void SeedDb(TimeTrackerDataModelContainer ctx)
         {
@@ -71,7 +66,7 @@ namespace TimeTracker.Model
             ctx.Projects.Add(project3);
             ctx.SaveChanges();
         }
-
+#region dupa
         public List<Project> GetProjects(DateTime? day)
         {
             if (day.HasValue)
@@ -133,4 +128,5 @@ namespace TimeTracker.Model
             }
         }
     }
+#endregion
 }
