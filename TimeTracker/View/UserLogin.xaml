@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TimeTracker.View.UserLogin"
+﻿<UserControl x:Name="userControl" x:Class="TimeTracker.View.UserLogin"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:TimeTracker.View"
              mc:Ignorable="d" Height="120" Width="180">
     <StackPanel>
-        <TextBox x:Name="Login" Margin="10,30,10,0" TextWrapping="Wrap" VerticalAlignment="Top"  Background="White" Foreground="Black" Text="{Binding LoginProperty}"/>
-        <PasswordBox x:Name="Password" Margin="10,10,10,0" VerticalAlignment="Top" />
-        <Button x:Name="Submit" Content="Button" HorizontalAlignment="Right" Margin="10,10,10,0" VerticalAlignment="Top" Width="75" Command="{Binding CommandProperty}" CommandParameter="{Binding ElementName=Password}"/>
+        <TextBox  Margin="10,30,10,0" TextWrapping="Wrap" VerticalAlignment="Top"  Background="White" Foreground="Black" Text="{Binding LoginName, ElementName=userControl, Mode=TwoWay}"/>
+        <PasswordBox x:Name="LoginPassword" Margin="10,10,10,0" VerticalAlignment="Top" KeyUp="LoginPassword_KeyUp" />
+        <Button Content="Button" HorizontalAlignment="Right" Margin="10,10,10,0" VerticalAlignment="Top" Width="75" Command="{Binding LoginButton, ElementName=userControl}" CommandParameter="{Binding ElementName=LoginPassword, Mode=OneWay}"/>
     </StackPanel>
 </UserControl>

@@ -105,13 +105,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TimeTrackerDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\CommandTypes.cs" />
-    <Compile Include="ViewModel\TimeTrackerBase.cs" />
     <Compile Include="TimeTrackerDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TimeTrackerDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\CommandTypes.cs" />
+    <Compile Include="ViewModel\TimeTrackerBase.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -157,25 +157,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TimeTrackerDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="TimeTrackerDataModel.edmx.diagram">
-      <DependentUpon>TimeTrackerDataModel.edmx</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="TimeTrackerDataModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TimeTrackerDataModel.Context.cs</LastGenOutput>
-      <DependentUpon>TimeTrackerDataModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="TimeTrackerDataModel.edmx.sql" />
-    <Content Include="TimeTrackerDataModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TimeTrackerDataModel.cs</LastGenOutput>
-      <DependentUpon>TimeTrackerDataModel.edmx</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -203,6 +187,19 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TimeTrackerDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TimeTrackerDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>TimeTrackerDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="TimeTrackerDataModel.edmx.sql" />
+    <Content Include="TimeTrackerDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TimeTrackerDataModel.cs</LastGenOutput>
+      <DependentUpon>TimeTrackerDataModel.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

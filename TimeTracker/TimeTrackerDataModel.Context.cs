@@ -16,7 +16,7 @@ namespace TimeTracker
     public partial class TimeTrackerDataModelContainer : DbContext
     {
         public TimeTrackerDataModelContainer()
-            : base("TimeTrackerDataModelContainer")
+            : base("name=TimeTrackerDataModelContainer")
         {
         }
     

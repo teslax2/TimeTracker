@@ -20,7 +20,7 @@ namespace TimeTracker.View
     /// </summary>
     public partial class TimeTrackerMain : Window
     {
-        TimeTrackerViewModel viewModel;
+        //TimeTrackerViewModel viewModel;
 
         public TimeTrackerMain()
         {

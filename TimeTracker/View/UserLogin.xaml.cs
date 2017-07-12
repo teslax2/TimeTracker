@@ -26,30 +26,32 @@ namespace TimeTracker.View
         }
 
 
-
-        public string LoginProperty
-        {   
-            get { return (string)GetValue(LoginPropertyProperty); }
-            set { SetValue(LoginPropertyProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for LoginProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LoginPropertyProperty =
-            DependencyProperty.Register("LoginProperty", typeof(string), typeof(UserLogin), new PropertyMetadata(String.Empty));
-
-
-
-        public ICommand CommandProperty
+        public string LoginName
         {
-            get { return (ICommand)GetValue(CommandPropertyProperty); }
-            set { SetValue(CommandPropertyProperty, value); }
+            get { return (string)GetValue(LoginNameProperty); }
+            set { SetValue(LoginNameProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for CommandProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CommandPropertyProperty =
-            DependencyProperty.Register("CommandProperty", typeof(ICommand), typeof(UserLogin), new PropertyMetadata(null));
+        // Using a DependencyProperty as the backing store for LoginName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LoginNameProperty =
+            DependencyProperty.Register("LoginName", typeof(string), typeof(UserLogin), new PropertyMetadata(null));
 
 
 
+        public ICommand LoginButton
+        {
+            get { return (ICommand)GetValue(LoginButtonProperty); }
+            set { SetValue(LoginButtonProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for LoginButton.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LoginButtonProperty =
+            DependencyProperty.Register("LoginButton", typeof(ICommand), typeof(UserLogin), new PropertyMetadata(null));
+
+        private void LoginPassword_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                LoginButton.Execute(this.LoginPassword);
+        }
     }
 }

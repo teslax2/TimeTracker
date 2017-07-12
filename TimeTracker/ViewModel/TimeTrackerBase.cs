@@ -42,8 +42,9 @@ namespace TimeTracker.ViewModel
         private void SeedDb()
         {
 
-            if (_ctx.Projects.Count() > 0)
-                return;
+            //if (_ctx.Projects.Count() > 0)
+               // return;
+
 
                 var calendar = new Calendar() { EmployeeId = 1, Id = 1, Date = DateTime.Parse("2017/05/20") };
                 var calendar2 = new Calendar() { EmployeeId = 2, Id = 2, Date = DateTime.Today };
@@ -53,7 +54,8 @@ namespace TimeTracker.ViewModel
                     Id = 1,
                     FirstName = "Wieslaw",
                     Surname = "Urban",
-                    Role = Roles.Engineer
+                    Role = Roles.Engineer,
+                    CreditentialId=1
                 };
 
                 var employee2 = new Employee()
@@ -61,7 +63,8 @@ namespace TimeTracker.ViewModel
                     Id = 2,
                     FirstName = "Ewelina",
                     Surname = "Urban",
-                    Role = Roles.Manager
+                    Role = Roles.Manager,
+                    CreditentialId=2
                 };
 
                 var projectName = new ProjectName()
@@ -115,6 +118,21 @@ namespace TimeTracker.ViewModel
                     ProjectNameId = 9
                 };
 
+                var credit1 = new Creditential()
+                {
+                    Email = "dupa@dupa.pl",
+                    Id = 1,
+                    Password = "dupa",
+                    EmployeeId=1
+                };
+                var credit2 = new Creditential()
+                {
+                    Email = "dupa@dupa.pl",
+                    Id = 2,
+                    Password = "dupa",
+                    EmployeeId = 2
+                };
+
                 _ctx.Employees.Add(employee);
                 _ctx.Employees.Add(employee2);
                 _ctx.Calendars.Add(calendar);
@@ -125,6 +143,8 @@ namespace TimeTracker.ViewModel
                 _ctx.Projects.Add(project);
                 _ctx.Projects.Add(project2);
                 _ctx.Projects.Add(project3);
+                _ctx.Creditential.Add(credit1);
+                _ctx.Creditential.Add(credit2);
                 _ctx.SaveChanges();
             
         }

@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/22/2017 21:55:54
+-- Date Created: 07/12/2017 22:13:15
 -- Generated from EDMX file: C:\Users\wiesi_000\documents\visual studio 2017\Projects\TimeTracker\TimeTracker\TimeTrackerDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [TIMETRACKERDB.MDF];
+USE [TIMETRACKERDB];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -25,6 +25,9 @@ IF OBJECT_ID(N'[dbo].[FK_CalendarProject]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_ProjectProjectName]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Projects] DROP CONSTRAINT [FK_ProjectProjectName];
+GO
+IF OBJECT_ID(N'[dbo].[FK_EmployeeCreditential]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Employees] DROP CONSTRAINT [FK_EmployeeCreditential];
 GO
 
 -- --------------------------------------------------
@@ -43,6 +46,9 @@ GO
 IF OBJECT_ID(N'[dbo].[ProjectNameSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ProjectNameSet];
 GO
+IF OBJECT_ID(N'[dbo].[Creditential]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Creditential];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -53,7 +59,9 @@ CREATE TABLE [dbo].[Employees] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [FirstName] nvarchar(max)  NOT NULL,
     [Surname] nvarchar(max)  NOT NULL,
-    [Role] int  NOT NULL
+    [Role] int  NOT NULL,
+    [CreditentialId] int  NOT NULL,
+    [Creditential_Id] int  NOT NULL
 );
 GO
 
@@ -89,7 +97,7 @@ CREATE TABLE [dbo].[Creditential] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Email] nvarchar(max)  NOT NULL,
     [Password] nvarchar(max)  NOT NULL,
-    [Employee_Id] int  NOT NULL
+    [EmployeeId] int  NOT NULL
 );
 GO
 
@@ -176,19 +184,19 @@ ON [dbo].[Projects]
     ([ProjectNameId]);
 GO
 
--- Creating foreign key on [Employee_Id] in table 'Creditential'
-ALTER TABLE [dbo].[Creditential]
-ADD CONSTRAINT [FK_CreditentialEmployee]
-    FOREIGN KEY ([Employee_Id])
-    REFERENCES [dbo].[Employees]
+-- Creating foreign key on [Creditential_Id] in table 'Employees'
+ALTER TABLE [dbo].[Employees]
+ADD CONSTRAINT [FK_EmployeeCreditential]
+    FOREIGN KEY ([Creditential_Id])
+    REFERENCES [dbo].[Creditential]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_CreditentialEmployee'
-CREATE INDEX [IX_FK_CreditentialEmployee]
-ON [dbo].[Creditential]
-    ([Employee_Id]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_EmployeeCreditential'
+CREATE INDEX [IX_FK_EmployeeCreditential]
+ON [dbo].[Employees]
+    ([Creditential_Id]);
 GO
 
 -- --------------------------------------------------

@@ -23,9 +23,9 @@
       <End Role="Project" EntitySet="Projects" />
       <End Role="ProjectName" EntitySet="ProjectNameSet" />
     </AssociationSet>
-    <AssociationSet Name="CreditentialEmployee" Association="TimeTrackerDataModel.Store.CreditentialEmployee">
-      <End Role="Creditential" EntitySet="Creditential" />
+    <AssociationSet Name="EmployeeCreditential" Association="TimeTrackerDataModel.Store.EmployeeCreditential">
       <End Role="Employee" EntitySet="Employees" />
+      <End Role="Creditential" EntitySet="Creditential" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Employees">
@@ -36,6 +36,8 @@
     <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Role" Type="int" Nullable="false" />
+    <Property Name="CreditentialId" Type="int" Nullable="false" />
+    <Property Name="Creditential_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Calendars">
     <Key>
@@ -71,7 +73,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Employee_Id" Type="int" Nullable="false" />
+    <Property Name="EmployeeId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="EmployeeCalendar">
     <End Role="Employee" Type="TimeTrackerDataModel.Store.Employees" Multiplicity="1" />
@@ -109,15 +111,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="CreditentialEmployee">
-    <End Role="Creditential" Type="TimeTrackerDataModel.Store.Creditential" Multiplicity="*" />
-    <End Role="Employee" Type="TimeTrackerDataModel.Store.Employees" Multiplicity="1" />
+  <Association Name="EmployeeCreditential">
+    <End Role="Employee" Type="TimeTrackerDataModel.Store.Employees" Multiplicity="*" />
+    <End Role="Creditential" Type="TimeTrackerDataModel.Store.Creditential" Multiplicity="1" />
     <ReferentialConstraint>
-      <Principal Role="Employee">
+      <Principal Role="Creditential">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Creditential">
-        <PropertyRef Name="Employee_Id" />
+      <Dependent Role="Employee">
+        <PropertyRef Name="Creditential_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -143,9 +145,9 @@
             <End Role="ProjectName" EntitySet="ProjectNameSet" />
           </AssociationSet>
           <EntitySet Name="Creditential" EntityType="TimeTrackerDataModel.Creditential" />
-          <AssociationSet Name="CreditentialEmployee" Association="TimeTrackerDataModel.CreditentialEmployee">
-            <End Role="Creditential" EntitySet="Creditential" />
+          <AssociationSet Name="EmployeeCreditential" Association="TimeTrackerDataModel.EmployeeCreditential">
             <End Role="Employee" EntitySet="Employees" />
+            <End Role="Creditential" EntitySet="Creditential" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Employee">
@@ -157,7 +159,8 @@
           <Property Name="Surname" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Role" Type="TimeTrackerDataModel.Roles" Nullable="false" />
           <NavigationProperty Name="Calendar" Relationship="TimeTrackerDataModel.EmployeeCalendar" FromRole="Employee" ToRole="Calendar" />
-          <NavigationProperty Name="Creditential" Relationship="TimeTrackerDataModel.CreditentialEmployee" FromRole="Employee" ToRole="Creditential" />
+          <NavigationProperty Name="Creditential" Relationship="TimeTrackerDataModel.EmployeeCreditential" FromRole="Employee" ToRole="Creditential" />
+          <Property Name="CreditentialId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Calendar">
           <Key>
@@ -241,11 +244,12 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Email" Type="String" Nullable="false" />
           <Property Name="Password" Type="String" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="TimeTrackerDataModel.CreditentialEmployee" FromRole="Creditential" ToRole="Employee" />
+          <NavigationProperty Name="Employee" Relationship="TimeTrackerDataModel.EmployeeCreditential" FromRole="Creditential" ToRole="Employee" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="CreditentialEmployee">
-          <End Type="TimeTrackerDataModel.Creditential" Role="Creditential" Multiplicity="0..1" />
+        <Association Name="EmployeeCreditential">
           <End Type="TimeTrackerDataModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="TimeTrackerDataModel.Creditential" Role="Creditential" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -260,6 +264,7 @@
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="Surname" ColumnName="Surname" />
           <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="CreditentialId" ColumnName="CreditentialId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -299,14 +304,15 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="CreditentialEmployee" TypeName="TimeTrackerDataModel.CreditentialEmployee" StoreEntitySet="Creditential">
-      <EndProperty Name="Employee">
-        <ScalarProperty Name="Id" ColumnName="Employee_Id" />
-      </EndProperty>
+    <AssociationSetMapping Name="EmployeeCreditential" TypeName="TimeTrackerDataModel.EmployeeCreditential" StoreEntitySet="Employees">
       <EndProperty Name="Creditential">
+        <ScalarProperty Name="Id" ColumnName="Creditential_Id" />
+      </EndProperty>
+      <EndProperty Name="Employee">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -331,6 +337,17 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
+      <Diagram DiagramId="cc5a8e3a9cf845fbb2bb448ace2fbe67" Name="Diagram1">
+        <EntityTypeShape EntityType="TimeTrackerDataModel.Employee" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimeTrackerDataModel.Calendar" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimeTrackerDataModel.Project" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimeTrackerDataModel.ProjectName" Width="1.5" PointX="9.75" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="TimeTrackerDataModel.EmployeeCalendar" ManuallyRouted="false" />
+        <AssociationConnector Association="TimeTrackerDataModel.CalendarProject" ManuallyRouted="false" />
+        <AssociationConnector Association="TimeTrackerDataModel.ProjectProjectName" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TimeTrackerDataModel.Creditential" Width="1.5" PointX="0.5" PointY="1.125" />
+        <AssociationConnector Association="TimeTrackerDataModel.EmployeeCreditential" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
