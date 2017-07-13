@@ -37,6 +37,11 @@ namespace TimeTracker.ViewModel
 
         public void Execute(object parameter)
         {
+            if (parameter == null)
+            {
+                this.Execute();
+                return;
+            }
             _action(parameter);
         }
 
