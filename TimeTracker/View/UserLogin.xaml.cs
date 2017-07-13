@@ -49,7 +49,9 @@ namespace TimeTracker.View
         public static readonly DependencyProperty CommandPropertyProperty =
             DependencyProperty.Register("CommandProperty", typeof(ICommand), typeof(UserLogin), new PropertyMetadata(null));
 
+        private void Password_KeyUp(object sender, KeyEventArgs e)
+        {
 
-
+        }
     }
 }

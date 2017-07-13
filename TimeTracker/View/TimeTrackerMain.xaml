@@ -15,7 +15,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <local:UserLogin Grid.Column="0" Grid.ColumnSpan="1" Margin="30,30,30,30" CommandProperty="{Binding Path=SubmitCommand}" LoginProperty="{Binding Path=Login}"/>
+        <local:UserLogin Grid.Column="0" Grid.ColumnSpan="1" Margin="30,30,30,30" CommandProperty="{Binding Path=SubmitCommand}" LoginProperty="{Binding Path=UserName}" />
         <Button x:Name="ProjectViewButton" Grid.Column="1" Click="ProjectViewButton_Click" Width="auto" Height="30" Margin="10,50,10,10" VerticalAlignment="Top" Background="#FF6EB0FF" Foreground="White" Visibility="{Binding Path=ButtonVisibility}">Project View</Button>
     </Grid>
 </Window>

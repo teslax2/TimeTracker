@@ -20,14 +20,12 @@ namespace TimeTracker.View
     /// </summary>
     public partial class TimeTrackerMain : Window
     {
-        TimeTrackerViewModel viewModel;
 
         public TimeTrackerMain()
         {
 
             InitializeComponent();
-            //viewModel = this.FindResource("timeTrackerViewModel") as TimeTrackerViewModel;
-            //this.DataContext = viewModel;
+
         }
 
         private void ProjectViewButton_Click(object sender, RoutedEventArgs e)
