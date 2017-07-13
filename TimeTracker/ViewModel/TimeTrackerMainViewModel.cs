@@ -30,8 +30,8 @@ namespace TimeTracker.ViewModel
 
         private void CheckPass(object password)
         {
-            addUsers();
-            var userData = _ctx.Creditential.Where(x => x.Email == UserName).SingleOrDefault();
+            //addUsers();
+            var userData = _ctx.Employees.Where(x => x.Email == UserName).SingleOrDefault();
             var passwordBox = password as PasswordBox;
 
             if (userData == null)
@@ -57,28 +57,8 @@ namespace TimeTracker.ViewModel
             OnPropertyChanged("ButtonVisibility");
         }
 
-        private string hashPassword(string pass)
-        {
-            SHA256 crypt = new SHA256Managed();
-            var hash = string.Empty;
-            byte[] hashedPass = crypt.ComputeHash(Encoding.UTF8.GetBytes(pass), 0, Encoding.UTF8.GetByteCount(pass));
-            foreach (byte element in hashedPass)
-            {
-                hash += element;
-            }
-            return hash;
-        }
 
-        private void addUsers()
-        {
-            if (_ctx.Creditential.Count() == 0)
-            {
-                _ctx.Creditential.Add(new Creditential() { Email = "dupa@dupa.pl", Password = hashPassword("dupa") });
-                _ctx.Creditential.Add(new Creditential() { Email = "pupa@dupa.pl", Password = hashPassword("pupa") });
-                _ctx.SaveChanges();
-            }
 
-        }
     }
 
 }

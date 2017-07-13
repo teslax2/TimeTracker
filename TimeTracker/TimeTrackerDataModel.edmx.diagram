@@ -12,8 +12,6 @@
         <AssociationConnector Association="TimeTrackerDataModel.CalendarProject" />
         <EntityTypeShape EntityType="TimeTrackerDataModel.ProjectName" Width="1.5" PointX="9.625" PointY="1.75" />
         <AssociationConnector Association="TimeTrackerDataModel.ProjectProjectName" />
-        <EntityTypeShape EntityType="TimeTrackerDataModel.Creditential" Width="1.5" PointX="0.625" PointY="1.75" />
-        <AssociationConnector Association="TimeTrackerDataModel.CreditentialEmployee" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

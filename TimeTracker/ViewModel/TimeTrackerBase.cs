@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -53,7 +54,9 @@ namespace TimeTracker.ViewModel
                 Id = 1,
                 FirstName = "Wieslaw",
                 Surname = "Urban",
-                Role = Roles.Engineer
+                Role = Roles.Engineer,
+                Email="dupa@dupa.pl",
+                Password=hashPassword("dupa")
             };
 
             var employee2 = new Employee()
@@ -61,7 +64,9 @@ namespace TimeTracker.ViewModel
                 Id = 2,
                 FirstName = "Ewelina",
                 Surname = "Urban",
-                Role = Roles.Manager
+                Role = Roles.Manager,
+                Email = "cipka@cipka.pl",
+                Password = hashPassword("cipka")
             };
 
             var projectName = new ProjectName()
@@ -137,6 +142,18 @@ namespace TimeTracker.ViewModel
         public TimeTrackerBase()
         {
             SeedDb();
+        }
+
+        public string hashPassword(string pass)
+        {
+            SHA256 crypt = new SHA256Managed();
+            var hash = string.Empty;
+            byte[] hashedPass = crypt.ComputeHash(Encoding.UTF8.GetBytes(pass), 0, Encoding.UTF8.GetByteCount(pass));
+            foreach (byte element in hashedPass)
+            {
+                hash += element;
+            }
+            return hash;
         }
 
     }

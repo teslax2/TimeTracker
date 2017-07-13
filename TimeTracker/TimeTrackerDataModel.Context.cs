@@ -16,7 +16,7 @@ namespace TimeTracker
     public partial class TimeTrackerDataModelContainer : DbContext
     {
         public TimeTrackerDataModelContainer()
-            : base("TimeTrackerDataModelContainer")
+            : base("name=TimeTrackerDataModelContainer")
         {
         }
     
@@ -29,6 +29,5 @@ namespace TimeTracker
         public virtual DbSet<Calendar> Calendars { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<ProjectName> ProjectNameSet { get; set; }
-        public virtual DbSet<Creditential> Creditential { get; set; }
     }
 }

@@ -10,7 +10,6 @@
     <EntitySet Name="Calendars" EntityType="TimeTrackerDataModel.Store.Calendars" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Projects" EntityType="TimeTrackerDataModel.Store.Projects" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectNameSet" EntityType="TimeTrackerDataModel.Store.ProjectNameSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Creditential" EntityType="TimeTrackerDataModel.Store.Creditential" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="EmployeeCalendar" Association="TimeTrackerDataModel.Store.EmployeeCalendar">
       <End Role="Employee" EntitySet="Employees" />
       <End Role="Calendar" EntitySet="Calendars" />
@@ -23,10 +22,6 @@
       <End Role="Project" EntitySet="Projects" />
       <End Role="ProjectName" EntitySet="ProjectNameSet" />
     </AssociationSet>
-    <AssociationSet Name="CreditentialEmployee" Association="TimeTrackerDataModel.Store.CreditentialEmployee">
-      <End Role="Creditential" EntitySet="Creditential" />
-      <End Role="Employee" EntitySet="Employees" />
-    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Employees">
     <Key>
@@ -36,6 +31,8 @@
     <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Role" Type="int" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Calendars">
     <Key>
@@ -63,15 +60,6 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Number" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Creditential">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Employee_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="EmployeeCalendar">
     <End Role="Employee" Type="TimeTrackerDataModel.Store.Employees" Multiplicity="1" />
@@ -109,18 +97,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="CreditentialEmployee">
-    <End Role="Creditential" Type="TimeTrackerDataModel.Store.Creditential" Multiplicity="*" />
-    <End Role="Employee" Type="TimeTrackerDataModel.Store.Employees" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Creditential">
-        <PropertyRef Name="Employee_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -142,11 +118,6 @@
             <End Role="Project" EntitySet="Projects" />
             <End Role="ProjectName" EntitySet="ProjectNameSet" />
           </AssociationSet>
-          <EntitySet Name="Creditential" EntityType="TimeTrackerDataModel.Creditential" />
-          <AssociationSet Name="CreditentialEmployee" Association="TimeTrackerDataModel.CreditentialEmployee">
-            <End Role="Creditential" EntitySet="Creditential" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Employee">
           <Key>
@@ -157,7 +128,8 @@
           <Property Name="Surname" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Role" Type="TimeTrackerDataModel.Roles" Nullable="false" />
           <NavigationProperty Name="Calendar" Relationship="TimeTrackerDataModel.EmployeeCalendar" FromRole="Employee" ToRole="Calendar" />
-          <NavigationProperty Name="Creditential" Relationship="TimeTrackerDataModel.CreditentialEmployee" FromRole="Employee" ToRole="Creditential" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Calendar">
           <Key>
@@ -234,19 +206,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Creditential">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Email" Type="String" Nullable="false" />
-          <Property Name="Password" Type="String" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="TimeTrackerDataModel.CreditentialEmployee" FromRole="Creditential" ToRole="Employee" />
-        </EntityType>
-        <Association Name="CreditentialEmployee">
-          <End Type="TimeTrackerDataModel.Creditential" Role="Creditential" Multiplicity="0..1" />
-          <End Type="TimeTrackerDataModel.Employee" Role="Employee" Multiplicity="1" />
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -260,6 +219,8 @@
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="Surname" ColumnName="Surname" />
           <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -293,23 +254,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Creditential">
-      <EntityTypeMapping TypeName="IsTypeOf(TimeTrackerDataModel.Creditential)">
-        <MappingFragment StoreEntitySet="Creditential">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <AssociationSetMapping Name="CreditentialEmployee" TypeName="TimeTrackerDataModel.CreditentialEmployee" StoreEntitySet="Creditential">
-      <EndProperty Name="Employee">
-        <ScalarProperty Name="Id" ColumnName="Employee_Id" />
-      </EndProperty>
-      <EndProperty Name="Creditential">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

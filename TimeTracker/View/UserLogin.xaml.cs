@@ -51,7 +51,8 @@ namespace TimeTracker.View
 
         private void Password_KeyUp(object sender, KeyEventArgs e)
         {
-
+            if(e.Key==Key.Enter)
+                CommandProperty.Execute(this.Password);
         }
     }
 }
