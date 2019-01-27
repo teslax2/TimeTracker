@@ -55,8 +55,8 @@ namespace TimeTracker.ViewModel
                 FirstName = "Wieslaw",
                 Surname = "Urban",
                 Role = Roles.Engineer,
-                Email="dupa@dupa.pl",
-                Password=hashPassword("dupa")
+                Email="dsafa@dsaf.pl",
+                Password=hashPassword("sdfa")
             };
 
             var employee2 = new Employee()
@@ -65,32 +65,32 @@ namespace TimeTracker.ViewModel
                 FirstName = "Ewelina",
                 Surname = "Urban",
                 Role = Roles.Manager,
-                Email = "cipka@cipka.pl",
-                Password = hashPassword("cipka")
+                Email = "fdsdf@fdas.pl",
+                Password = hashPassword("cfds")
             };
 
             var projectName = new ProjectName()
             {
                 Id =1,
-                Name = "PD1234 Dupa",
+                Name = "PD1234 fds",
                 Number = "PD1234",
-                Description = "Duza dupa"
+                Description = "dfsdsa"
             };
 
             var projectName2 = new ProjectName()
             {
                 Id =2,
-                Name = "PD333 Cipa",
+                Name = "PD333sdfa",
                 Number = "PD333",
-                Description = "Duza cipa"
+                Description = "Duzasdf"
             };
 
             var projectName3 = new ProjectName()
             {
                 Id =3,
-                Name = "PD4 Pupa",
+                Name = "PD4 sdf",
                 Number = "PD4",
-                Description = "Duza pupa"
+                Description = "Dudsfa"
             };
 
             var project = new Project()
@@ -106,7 +106,7 @@ namespace TimeTracker.ViewModel
             {
                 Id=2,
                 Hours=0,
-                Description = "Projekt z pipki",
+                Description = "Projekt dsf",
                 CalendarId = 2,
                 ProjectNameId = 2
             };
@@ -115,7 +115,7 @@ namespace TimeTracker.ViewModel
             {
                 Id=3,
                 Hours= 3,
-                Description = "Projekt z pipki2",
+                Description = "Projektdsfds",
                 CalendarId = 2,
                 ProjectNameId = 3
             };
