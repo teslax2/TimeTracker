@@ -97,7 +97,7 @@ namespace TimeTracker.ViewModel
             { 
                 Id =1,
                 Hours = 0,
-                Description = "Projekt z dupki",
+                Description = "Projekt z ddfi",
                 CalendarId = 1,
                 ProjectNameId = 1
             };
